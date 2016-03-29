@@ -1,4 +1,49 @@
-docker run -it -p 45566:45566 -p 9527:9527/udp -v /data-store:/rtorrent -e UPLOAD_RATE=1024 -e VIRTUAL_HOST=torrent.oscartegiffel.com,torrent.oscarteg.com,torrent.oscarteg.nl docktorrent
+docker run -d \
+    --name sonarr \
+    -p 8989:8989 \
+    -e PUID=500 -e PGID=500 \
+    -e VIRTUAL_HOST=sonarr.oscartegiffel.com \
+    -v /dev/rtc:/dev/rtc:ro \
+    -v /home/core/sonarr/config:/config \
+    -v /storage:/tv \
+    linuxserver/sonarr
+
+docker run --restart=always \
+    -d --name plex -h plex.oscartegiffel.com \
+    -v /home/core/config:/config \
+    -v /storage/movies:/data/movies \
+    -v /storage/tvseries:/data/tvseries \
+    -e VIRTUAL_HOST=plex.oscartegiffel.com \
+    -p 32400:32400 \
+    timhaak/plex
+
+docker run -d \
+    --name deluge \
+    --net=host \
+    -e PUID=500 -e PGID=500 \
+    -v /storage:/downloads \
+    -v /home/core/deluge:/config \
+    -v /etc/localtime:/etc/localtime:ro \
+    linuxserver/deluge
 
 
-docker run --restart=always -d --name plex -h oscartegiffel.com -v /home/core/plex/config:/config -v /data-store/downloads:/data -p 32400:32400 -e VIRTUAL_HOST=plex.oscartegiffel.com timhaak/plex
+docker run -d \
+    --name=couchpotato \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /home/core/couchpotato:/config \
+    -v /storage:/movies \
+    -e PGID=500 -e PUID=500  \
+    -e VIRTUAL_HOST=couchpotato.oscartegiffel.com,couchpotato.oscarteg.com,couchpotato.oscarteg.nl
+    -p 5050:5050 \
+    linuxserver/couchpotato
+
+docker run -d \
+    --name="Headphones" \
+    -v /home/core/headphones:/config \
+    -v /storage/downloads:/downloads \
+    -v /storage:/music \
+    -v /etc/localtime:/etc/localtime:ro \
+    -e PGID=500 -e PUID=500  \
+    -e VIRTUAL_HOST=headphones.oscartegiffel.com,headphones.oscarteg.com,headphones.oscarteg.nl
+    -p 8181:8181 \
+    linuxserver/headphones
