@@ -1,0 +1,12 @@
+torrent:
+  image: kfei/docktorrent
+  ports:
+    - 45566:45566
+    - 9527:9527/udp
+  environment:
+    VIRTUAL_HOST: torrent.oscartegiffel.com,torrent.oscarteg.nl,torrent.oscarteg.com
+    UPLOAD_RATE: 1024
+  volumes:
+    - /data-store:/rtorrent
+
+plex:
