@@ -7,5 +7,5 @@
 - [ ] Setup Plex [Github](https://github.com/linuxserver/docker-plex) [Docker](https://hub.docker.com/r/linuxserver/plex/)
 - [x] Setup Torrent-downloader-deluge [Github](https://github.com/linuxserver/docker-deluge) [Docker](https://hub.docker.com/r/linuxserver/deluge/)
 - [x] Setup Headphones [Github](https://github.com/linuxserver/docker-headphones) [Docker](https://hub.docker.com/r/linuxserver/headphones/)
-- [ ] Auto upload to plex 
+- [ ] Auto upload to plex
 - [ ] Test upload to plex
