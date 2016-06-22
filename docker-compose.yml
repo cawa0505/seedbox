@@ -1,14 +1,19 @@
 deluge:
-  container_name: deluge
-  image: linuxserver/deluge
+  container_name: qbittorrent
+  image: wernight/qbittorrent
+  ports:
+    - 8080:9000
+    - 6881:6881/tcp
+    - 6881:6881/udp
   environment:
-    VIRTUAL_HOST: deluge.oscartegiffel.com
+    VIRTUAL_HOST: torrent.oscartegiffel.com
     PUID: 500
     PGID: 500
   volumes:
-    - /storage:/downloads
-    - /home/core/deluge:/config
-    - /etc/localtime:/etc/localtime:ro
+    - $HOME/qbittorrent/downloads:/downloads
+    - $HOME/qbittorrent/config:/config
+    - $HOME/qbittorrent/torrent/torrents
+  restart: always
 
 sonarr:
   container_name: tvseries
@@ -16,7 +21,7 @@ sonarr:
   ports:
     - 8989:8989
   environment:
-    VIRTUAL_HOST: sonarr.oscartegiffel.com,sonarr.oscarteg.com,sonarr.oscarteg.nl
+    VIRTUAL_HOST: sonarr.oscartegiffel.com
     PUID: 500
     PGID: 500
   volumes:
@@ -34,7 +39,7 @@ plex:
     - /storage/movies:/data/movies
     - /storage/tvseries:/data/tvseries
   environment:
-    VIRTUAL_HOST: plex.oscartegiffel.com,plex.oscarteg.com,plex.oscarteg.nl
+    VIRTUAL_HOST: plex.oscartegiffel.com
 
 couchpotato:
   container_name: couchpotato
@@ -46,7 +51,7 @@ couchpotato:
     - /home/core/couchpotato:/config
     - /storage:/movies
   environment:
-    VIRTUAL_HOST: couchpotato.oscartegiffel.com,couchpotato.oscarteg.com,couchpotato.oscarteg.nl
+    VIRTUAL_HOST: couchpotato.oscartegiffel.com
     PUID: 500
     PGID: 500
 
@@ -61,6 +66,6 @@ headphones:
     - /storage/music:/music
     - /etc/localtime:/etc/localtime:ro
   environment:
-    VIRTUAL_HOST: headphones.oscartegiffel.com,headphones.oscarteg.com,headphones.oscarteg.nl
+    VIRTUAL_HOST: headphones.oscartegiffel.com
     PUID: 500
     PGID: 500
