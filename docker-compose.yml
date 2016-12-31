@@ -1,71 +1,77 @@
-deluge:
-  container_name: qbittorrent
-  image: wernight/qbittorrent
-  ports:
-    - 8080:9000
-    - 6881:6881/tcp
-    - 6881:6881/udp
-  environment:
-    VIRTUAL_HOST: torrent.oscartegiffel.com
-    PUID: 500
-    PGID: 500
-  volumes:
-    - $HOME/qbittorrent/downloads:/downloads
-    - $HOME/qbittorrent/config:/config
-    - $HOME/qbittorrent/torrent/torrents
-  restart: always
+version: "2.1"
 
-sonarr:
-  container_name: tvseries
-  image: linuxserver/sonarr
-  ports:
-    - 8989:8989
-  environment:
-    VIRTUAL_HOST: sonarr.oscartegiffel.com
-    PUID: 500
-    PGID: 500
-  volumes:
-    - /dev/rtc:/dev/rtc:ro
-    - /home/core/sonarr/config:/config
-    - /storage:/tv
+services:
+  couchpotato:
+    container_name: couchpotato
+    image: "couchpotato/couchpotato"
+    container_name: "couchpotato"
+    volumes:
+      - "${TORRENTS_DIR}:/datadir"
+      - "${MOVIES_DIR}:/media"
+      - "${CONFIG_DIR}/couchpotato:/config"
+    environment:
+      CONFIG: /config/couchpotato.ini
+    ports:
+      - "5050:5050"
+    restart: always
+  
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    restart: unless-stopped
+    ports:
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    environment:
+      - TZ= Europe/Amsterdam
+    hostname: PlexServer
+    volumes:
+      - ${CONFIG_DIR}/plex:/config
+      - ${SHOWS_DIR}:/data/tvshows
+      - ${MOVIES_DIR}:/data/movies
+  
+  sickrage:
+    container_name: sickrage
+    image: "timhaak/sickrage"
+    ports: 
+     - "8081:8081"
+    volumes:
+      - "${CONFIG_DIR}/sickrage:/config"
+      - "${TORRENTS_DIR}:/downloads"
+      - "${SHOWS_DIR}:/tv"
+    restart: always
 
-plex:
-  container_name: plex
-  image: timhaak/plex
-  ports:
-    - 32400:32400
-  volumes:
-    - /home/core/plex:/config
-    - /storage/movies:/data/movies
-    - /storage/tvseries:/data/tvseries
-  environment:
-    VIRTUAL_HOST: plex.oscartegiffel.com
+  rutorrent:
+    container_name: rutorrent
+    image: linuxserver/rutorrent
+    environment:
+      PGID: ${UID}
+      PUID: ${UID}
+      TZ: Europe/Amsterdam
+    ports:
+      - 8112:80
+      - 5001:5000
+      - 51413:51413
+      - 6881:6881/udp
+    restart: always
 
-couchpotato:
-  container_name: couchpotato
-  image: linuxserver/couchpotato
-  ports:
-    - 5050:5050
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - /home/core/couchpotato:/config
-    - /storage:/movies
-  environment:
-    VIRTUAL_HOST: couchpotato.oscartegiffel.com
-    PUID: 500
-    PGID: 500
-
-headphones:
-  container_name: music
-  image: linuxserver/headphones
-  ports:
-    - 8181:8181
-  volumes:
-    - /home/core/headphones:/config
-    - /storage/downloads:/downloads
-    - /storage/music:/music
-    - /etc/localtime:/etc/localtime:ro
-  environment:
-    VIRTUAL_HOST: headphones.oscartegiffel.com
-    PUID: 500
-    PGID: 500
+  plexpy:
+    container_name: plexpy
+    image: linuxserver/plexpy
+    volumes:
+      - "${CONFIG_DIR}/plexpy:/config"
+      - "${CONFIG_DIR}/plexpy/logs:/logs:ro"
+    environment:
+      PGID: ${UID}
+      PUID: ${UID}
+      TZ: Europe/Amsterdam
+    ports:
+      - 8181:8181
+    restart: always
