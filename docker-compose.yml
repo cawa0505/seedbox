@@ -39,7 +39,7 @@ services:
   
   sickrage:
     container_name: sickrage
-    image: "timhaak/sickrage"
+    image: "sickrage"
     ports: 
      - "8081:8081"
     volumes:
