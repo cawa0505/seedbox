@@ -1,5 +1,4 @@
 version: "2.1"
-
 services:
   couchpotato:
     container_name: couchpotato
@@ -8,9 +7,10 @@ services:
     volumes:
       - "${TORRENTS_DIR}:/datadir"
       - "${MOVIES_DIR}:/media"
-      - "${CONFIG_DIR}/couchpotato:/config"
     environment:
-      CONFIG: /config/couchpotato.ini
+      CONFIG: /datadir/config/couchpotato/couchpotato.ini
+      CP_UID: ${UID}
+      CP_GID: ${UID}
     ports:
       - "5050:5050"
     restart: always
