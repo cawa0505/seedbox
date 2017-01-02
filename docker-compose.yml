@@ -2,17 +2,17 @@ version: "2.1"
 services:
   couchpotato:
     container_name: couchpotato
-    image: "couchpotato/couchpotato"
-    container_name: "couchpotato"
-    volumes:
-      - "${TORRENTS_DIR}:/datadir"
-      - "${MOVIES_DIR}:/media"
+    image: "linuxserver/couchpotato"
     environment:
-      CONFIG: /datadir/config/couchpotato/couchpotato.ini
-      CP_UID: ${UID}
-      CP_GID: ${UID}
-    ports:
-      - "5050:5050"
+      PGID: ${UID}
+      PUID: ${UID}
+      TZ: Europe/Amsterdam
+    ports: 
+     - "5050:5050"
+    volumes:
+      - "${CONFIG_DIR}/couchpotato:/config"
+      - "${TORRENTS_DIR}:/downloads"
+      - "${MOVIES_DIR}:/movies"
     restart: always
   
   plex:
@@ -37,9 +37,13 @@ services:
       - ${SHOWS_DIR}:/data/tvshows
       - ${MOVIES_DIR}:/data/movies
   
-  sickrage:
+ sickrage:
     container_name: sickrage
-    image: "sickrage"
+    image: "linuxserver/sickrage"
+    environment:
+      PGID: ${UID}
+      PUID: ${UID}
+      TZ: Europe/Amsterdam
     ports: 
      - "8081:8081"
     volumes:
@@ -64,14 +68,15 @@ services:
 
   plexpy:
     container_name: plexpy
-    image: linuxserver/plexpy
-    volumes:
-      - "${CONFIG_DIR}/plexpy:/config"
-      - "${CONFIG_DIR}/plexpy/logs:/logs:ro"
+    image: "linuxserver/plexpy"
     environment:
       PGID: ${UID}
       PUID: ${UID}
       TZ: Europe/Amsterdam
-    ports:
-      - 8181:8181
+    ports: 
+     - "8181:8181"
+    volumes:
+      - "${CONFIG_DIR}/plexpy:/config"
+      - "${CONFIG_DIR}/plexpy/logs:/logs:ro"
+      - "${SHOWS_DIR}:/tv"
     restart: always
