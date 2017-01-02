@@ -37,7 +37,7 @@ services:
       - ${SHOWS_DIR}:/data/tvshows
       - ${MOVIES_DIR}:/data/movies
   
- sickrage:
+  sickrage: 
     container_name: sickrage
     image: "linuxserver/sickrage"
     environment:
