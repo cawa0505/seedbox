@@ -80,11 +80,3 @@ services:
       - "${CONFIG_DIR}/plexpy/logs:/logs:ro"
       - "${SHOWS_DIR}:/tv"
     restart: always
-
-  portainer:
-    container_name: portainer
-    image: "portainer/portainer"
-    ports:
-      - "9000:9000"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
