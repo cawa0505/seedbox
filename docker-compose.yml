@@ -6,7 +6,7 @@ services:
     environment:
       PGID: ${UID}
       PUID: ${UID}
-      TZ: Europe/Amsterdam
+      TZ: ${TIMEZONE}
     ports: 
      - "5050:5050"
     volumes:
@@ -30,7 +30,7 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     environment:
-      - TZ= Europe/Amsterdam
+      TZ: ${TIMEZONE}
     hostname: PlexServer
     volumes:
       - ${CONFIG_DIR}/plex:/config
@@ -43,7 +43,7 @@ services:
     environment:
       PGID: ${UID}
       PUID: ${UID}
-      TZ: Europe/Amsterdam
+      TZ: ${TIMEZONE}
     ports: 
      - "8081:8081"
     volumes:
@@ -58,7 +58,7 @@ services:
     environment:
       PGID: ${UID}
       PUID: ${UID}
-      TZ: Europe/Amsterdam
+      TZ: ${TIMEZONE}
     ports:
       - 8112:80
       - 5001:5000
@@ -72,7 +72,22 @@ services:
     environment:
       PGID: ${UID}
       PUID: ${UID}
-      TZ: Europe/Amsterdam
+      TZ: ${TIMEZONE}
+    ports: 
+     - "8181:8181"
+    volumes:
+      - "${CONFIG_DIR}/plexpy:/config"
+      - "${CONFIG_DIR}/plexpy/logs:/logs:ro"
+      - "${SHOWS_DIR}:/tv"
+    restart: always
+
+  jackett:
+    container_name: jackett
+    image: "linuxserver/jackett"
+    environment:
+      PGID: ${UID}
+      PUID: ${UID}
+      TZ: ${TIMEZONE}
     ports: 
      - "8181:8181"
     volumes:
