@@ -1,4 +1,13 @@
 version: "2.1"
+
+volumes:
+  couchpotato:
+  plex:
+  sickrage:
+  jackett:
+  rutorrent: 
+  plexpy: 
+
 services:
   couchpotato:
     container_name: couchpotato
@@ -10,9 +19,9 @@ services:
     ports: 
      - "5050:5050"
     volumes:
-      - "${CONFIG_DIR}/couchpotato:/config"
-      - "${TORRENTS_DIR}:/downloads"
-      - "${MOVIES_DIR}:/movies"
+      - couchpotato:/config
+      - ${TORRENTS_DIR}:/downloads
+      - ${MOVIES_DIR}:/movies
     restart: always
   
   plex:
@@ -33,23 +42,23 @@ services:
       TZ: ${TIMEZONE}
     hostname: PlexServer
     volumes:
-      - ${CONFIG_DIR}/plex:/config
+      - plex:/config
       - ${SHOWS_DIR}:/data/tvshows
       - ${MOVIES_DIR}:/data/movies
   
   sickrage: 
     container_name: sickrage
-    image: "linuxserver/sickrage"
+    image: linuxserver/sickrage
     environment:
       PGID: ${UID}
       PUID: ${UID}
       TZ: ${TIMEZONE}
     ports: 
-     - "8081:8081"
+     - 8081:8081
     volumes:
-      - "${CONFIG_DIR}/sickrage:/config"
-      - "${TORRENTS_DIR}:/downloads"
-      - "${SHOWS_DIR}:/tv"
+      - sickrage:/config
+      - ${TORRENTS_DIR}:/downloads
+      - ${SHOWS_DIR}:/tv
     restart: always
 
   rutorrent:
@@ -65,6 +74,9 @@ services:
       - 51413:51413
       - 6881:6881/udp
     restart: always
+    volumes:
+      - ${TORRENTS_DIR}:/downloads
+      - rutorrent:/config
 
   plexpy:
     container_name: plexpy
@@ -76,22 +88,21 @@ services:
     ports: 
      - "8181:8181"
     volumes:
-      - "${CONFIG_DIR}/plexpy:/config"
-      - "${CONFIG_DIR}/plexpy/logs:/logs:ro"
-      - "${SHOWS_DIR}:/tv"
+      - plexpy:/config
+      - plexpy/logs:/logs:ro
+      - ${SHOWS_DIR}:/tv
     restart: always
 
   jackett:
     container_name: jackett
-    image: "linuxserver/jackett"
+    image: linuxserver/jackett
     environment:
       PGID: ${UID}
       PUID: ${UID}
       TZ: ${TIMEZONE}
     ports: 
-     - "8181:8181"
+     - 9117:9117
     volumes:
-      - "${CONFIG_DIR}/plexpy:/config"
-      - "${CONFIG_DIR}/plexpy/logs:/logs:ro"
-      - "${SHOWS_DIR}:/tv"
+      - jackett:/config
+      - ${TORRENTS_DIR}/auto-load:/downloads
     restart: always
