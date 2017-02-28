@@ -88,7 +88,7 @@ services:
       PUID: ${UID}
       TZ: ${TIMEZONE}
     ports: 
-     - 9118:9117
+     - 8182:8181
     volumes:
       - headphones:/config
       - ${TORRENTS_DIR}:/downloads
