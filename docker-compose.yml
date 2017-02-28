@@ -56,7 +56,7 @@ services:
       PUID: ${UID}
       TZ: ${TIMEZONE}
     ports: 
-     - 8081:8081
+     - 8989:8989
     volumes:
       - sonarr:/config
       - ${TORRENTS_DIR}:/downloads
