@@ -121,5 +121,5 @@ services:
      - 9117:9117
     volumes:
       - jackett:/config
-      - ${TORRENTS_DIR}/auto-load:/downloads
+      - ${TORRENTS_DIR}/watched:/downloads
     restart: always
