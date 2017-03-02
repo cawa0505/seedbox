@@ -9,6 +9,7 @@ volumes:
   plexpy: 
   plexpy-logs: 
   headphones:
+  plexrequests:
 
 services:
   couchpotato:
@@ -120,4 +121,16 @@ services:
     volumes:
       - jackett:/config
       - ${TORRENTS_DIR}/auto-add:/downloads
+    restart: always
+
+  plexrequests:
+    container_name: plexrequests
+    image: linuxserver/plexrequests
+    environment:
+      PGID: ${UID}
+      PUID: ${UID}
+    ports: 
+     - 9200:3000
+    volumes:
+      - plexrequests:/config
     restart: always
