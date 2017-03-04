@@ -5,7 +5,7 @@ volumes:
   plex:
   sonarr:
   jackett:
-  deluge: 
+  rutorrent: 
   plexpy: 
   plexpy-logs: 
   headphones:
@@ -64,9 +64,9 @@ services:
       - ${SHOWS_DIR}:/tv
     restart: always
 
-  deluge:
-    container_name: deluge
-    image: linuxserver/deluge
+  rutorrent:
+    container_name: rutorrent
+    image: linuxserver/rutorrent
     environment:
       PGID: ${UID}
       PUID: ${UID}
@@ -75,7 +75,7 @@ services:
       - 8112:80
     volumes:
       - ${TORRENTS_DIR}:/downloads
-      - deluge:/config
+      - rutorrent:/config
     restart: always
 
   headphones:
