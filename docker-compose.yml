@@ -31,7 +31,8 @@ services:
     container_name: plex
     image: plexinc/pms-docker
     restart: unless-stopped
-    network_mode: host
+    ports:
+      - 32400:32400
     environment:
       TZ: ${TIMEZONE}
     hostname: PlexServer
