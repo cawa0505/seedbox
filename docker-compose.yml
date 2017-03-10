@@ -1,7 +1,7 @@
 version: "3"
 
 volumes:
-  couchpotato:
+  radarr:
   plex:
   sonarr:
   jackett:
@@ -12,17 +12,17 @@ volumes:
   plexrequests:
 
 services:
-  couchpotato:
-    container_name: couchpotato
-    image: "linuxserver/couchpotato"
+  radarr:
+    container_name: radarr
+    image: "hotio/radarr"
     environment:
       PGID: ${UID}
       PUID: ${UID}
       TZ: ${TIMEZONE}
     ports: 
-     - "5050:5050"
+     - 7878:7878
     volumes:
-      - couchpotato:/config
+      - radarr:/config
       - ${TORRENTS_DIR}:/downloads
       - ${MOVIES_DIR}:/movies
     restart: always
@@ -88,13 +88,13 @@ services:
 
   plexpy:
     container_name: plexpy
-    image: "linuxserver/plexpy"
+    image: linuxserver/plexpy
     environment:
       PGID: ${UID}
       PUID: ${UID}
       TZ: ${TIMEZONE}
     ports: 
-     - "8181:8181"
+     - 8181:8181
     volumes:
       - plexpy:/config
       - plexpy-logs:/logs:ro
@@ -103,7 +103,7 @@ services:
 
   jackett:
     container_name: jackett
-    image: xataz/jackett
+    image: linuxserver/jackett
     environment:
       PGID: ${UID}
       PUID: ${UID}
