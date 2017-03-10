@@ -39,6 +39,7 @@ services:
       - plex:/config
       - ${SHOWS_DIR}:/data/tvshows
       - ${MOVIES_DIR}:/data/movies
+      - ${MUSIC_DIR}:/data/music
   
   sonarr: 
     container_name: sonarr
