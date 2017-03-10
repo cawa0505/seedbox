@@ -5,7 +5,7 @@ volumes:
   plex:
   sonarr:
   jackett:
-  rutorrent: 
+  deluge: 
   plexpy: 
   plexpy-logs: 
   headphones:
