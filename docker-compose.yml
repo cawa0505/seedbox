@@ -103,15 +103,14 @@ services:
 
   jackett:
     container_name: jackett
-    image: linuxserver/jackett
+    image: xataz/jackett
     environment:
       PGID: ${UID}
       PUID: ${UID}
-      TZ: ${TIMEZONE}
     ports: 
      - 9117:9117
     volumes:
-      - jackett:/config
+      - jackett:/home/jackett/.config/Jackett
       - ${TORRENTS_DIR}/auto-add:/downloads
     restart: always
 
