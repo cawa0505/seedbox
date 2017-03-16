@@ -14,7 +14,7 @@ volumes:
 services:
   radarr:
     container_name: radarr
-    image: "hotio/radarr"
+    image: hotio/radarr
     environment:
       PGID: ${UID}
       PUID: ${UID}
@@ -111,7 +111,7 @@ services:
      - 9117:9117
     volumes:
       - jackett:/home/jackett/.config/Jackett
-      - ${TORRENTS_DIR}/auto-add:/downloads
+      - ${TORRENTS_DIR}/:/downloads
     restart: always
 
   plexrequests:
