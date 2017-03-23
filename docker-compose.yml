@@ -12,7 +12,8 @@ volumes:
   plexrequests:
 
 services:
-  container_name: couchpotato
+  couchpotato:
+    container_name: couchpotato
     image: linuxserver/couchpotato
     environment:
       PGID: ${UID}
