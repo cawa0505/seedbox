@@ -12,15 +12,18 @@ volumes:
   plexrequests:
 
 services:
-  couchpotato:
-    container_name: couchpotato
-    image: couchpotato/couchpotato
+  container_name: couchpotato
+    image: linuxserver/couchpotato
+    environment:
+      PGID: ${UID}
+      PUID: ${UID}
+      TZ: ${TIMEZONE}
     ports: 
      - 5050:5050
     volumes:
-      - couchpotato:/datadir
+      - couchpotato:/config
       - ${TORRENTS_DIR}:/downloads
-      - ${MOVIES_DIR}:/media
+      - ${MOVIES_DIR}:/movies
     restart: always
   
   plex:
