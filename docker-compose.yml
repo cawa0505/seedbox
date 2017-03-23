@@ -12,19 +12,15 @@ volumes:
   plexrequests:
 
 services:
-  radarr:
-    container_name: radarr
-    image: hotio/radarr
-    environment:
-      PGID: ${UID}
-      PUID: ${UID}
-      TZ: ${TIMEZONE}
+  couchpotato:
+    container_name: couchpotato
+    image: couchpotato/couchpotato
     ports: 
-     - 7878:7878
+     - 5050:5050
     volumes:
-      - radarr:/config
+      - couchpotato:/datadir
       - ${TORRENTS_DIR}:/downloads
-      - ${MOVIES_DIR}:/movies
+      - ${MOVIES_DIR}:/media
     restart: always
   
   plex:
