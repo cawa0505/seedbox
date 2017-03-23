@@ -1,7 +1,7 @@
 version: "3"
 
 volumes:
-  couchpotato:
+  radarr:
   plex:
   sonarr:
   jackett:
