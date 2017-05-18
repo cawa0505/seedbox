@@ -40,6 +40,7 @@ services:
       - ${SHOWS_DIR}:/data/tvshows
       - ${MOVIES_DIR}:/data/movies
       - ${MUSIC_DIR}:/data/music
+      - ${OTHER_DIR}:/data/other
   
   sonarr: 
     container_name: sonarr
